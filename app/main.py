@@ -1,10 +1,14 @@
 from fastapi import FastAPI
-from app.database import engine
-from app.models.order import OrderModel
 from app.routes import order as order_route
+from app.database import engine, BaseModel
 
 app = FastAPI()
 
-OrderModel.metadata.create_all(bind=engine)
+# Initialize database tables
+BaseModel.metadata.create_all(bind=engine)
 
-app.include_router(order_route.router)
+app.include_router(order_route.router, prefix="/orders", tags=["orders"])
+
+@app.get("/")
+def read_root():
+    return {"message": "Welcome to the Order Service"}
