@@ -8,6 +8,9 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '.
 
 from app.database import BaseModel
 from app.models.order import OrderModel  # Import your models here
+from app.models.product import ProductModel
+from app.models.user import UserModel
+from app.models.vendor import VendorModel
 
 config = context.config
 
