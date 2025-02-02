@@ -15,7 +15,7 @@ def find_best_fulfillment(db: Session, order: OrderCreate):
         return nearest_warehouse
     
     # Step 2: Check seller collaborators within proximity
-    collaborators = find_seller_collaborators(order.seller_id)
+    collaborators = find_seller_collaborators(order.sellerId)
     for seller in collaborators:
         if check_seller_inventory(seller, order.product_id):
             return seller
@@ -35,7 +35,7 @@ def fallback_fulfillment(db: Session, order: OrderCreate):
             return warehouse
 
     # Step 2: Try to find alternate sellers through collaboration partners
-    fallback_sellers = find_seller_collaborators(order.seller_id, expand_search=True)
+    fallback_sellers = find_seller_collaborators(order.sellerId, expand_search=True)
     for seller in fallback_sellers:
         if check_seller_inventory(seller, order.product_id):
             return seller
@@ -109,5 +109,5 @@ def get_all_orders(db: Session):
 def get_order(db: Session, order_id: int):
     return db.query(OrderModel).filter(OrderModel.id == order_id).first()
 
-def get_orders_by_user(db: Session, user_id: int):
+def get_orders_by_user(db: Session, user_id: str):
     return db.query(OrderModel).filter(OrderModel.user_id == user_id).all()

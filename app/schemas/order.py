@@ -26,8 +26,8 @@ class OrderBase(BaseModel):
 
 # Schema for creating a new order
 class OrderCreate(OrderBase):
-    user_id: int
-    vendor_id: int
+    user_id: str
+    sellerId: str
     fulfillment_source_id: int
     fulfillment_source_type: str  # Either "seller" or "warehouse"
     is_backup_fulfillment: Optional[bool] = False  # Default to False
@@ -40,8 +40,8 @@ class Order(OrderBase):
     id: int
     tracking_status: OrderStatusEnum
     tracking_info: Optional[str] = None  # Tracking info can be optional
-    user_id: int
-    vendor_id: int
+    user_id: str
+    sellerId: str
     fulfillment_source_id: int
     fulfillment_source_type: str
     is_backup_fulfillment: bool
@@ -71,7 +71,7 @@ class OrderResponse(OrderBase):
 
 class OrderInDBBase(OrderBase):
     id: int
-    user_id: int
+    user_id: str
     product_id: int
 
     class Config:

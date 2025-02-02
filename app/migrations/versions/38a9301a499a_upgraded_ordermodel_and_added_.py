@@ -1,4 +1,4 @@
-"""Upgraded OrderModel and added ProductModel, VendorModel and UserModel
+"""Upgraded OrderModel and added ProductModel, SellerModel and UserModel
 
 Revision ID: 38a9301a499a
 Revises: 6400839a219d
@@ -40,15 +40,15 @@ def upgrade():
         )
         op.create_index(op.f('ix_users_id'), 'users', ['id'], unique=False)
 
-    # Check if 'vendors' table exists, and create it if not
-    if not op.get_bind().dialect.has_table(op.get_bind(), 'vendors'):
-        op.create_table('vendors',
+    # Check if 'sellers' table exists, and create it if not
+    if not op.get_bind().dialect.has_table(op.get_bind(), 'sellers'):
+        op.create_table('sellers',
             sa.Column('id', sa.Integer(), nullable=False),
             sa.Column('name', sa.String(), nullable=False),
             sa.Column('description', sa.String(), nullable=True),
             sa.PrimaryKeyConstraint('id')
         )
-        op.create_index(op.f('ix_vendors_id'), 'vendors', ['id'], unique=False)
+        op.create_index(op.f('ix_sellers_id'), 'sellers', ['id'], unique=False)
 
     # Step 1: Add fulfillment_source_id and fulfillment_source_type as nullable
     op.add_column('orders', sa.Column('fulfillment_source_id', sa.Integer(), nullable=True))
@@ -73,7 +73,7 @@ def upgrade():
 
     # Foreign key constraints
     op.create_foreign_key(None, 'orders', 'products', ['product_id'], ['id'])
-    op.create_foreign_key(None, 'orders', 'vendors', ['vendor_id'], ['id'])
+    op.create_foreign_key(None, 'orders', 'sellers', ['seller_id'], ['id'])
     op.create_foreign_key(None, 'orders', 'users', ['user_id'], ['id'])
     # ### end Alembic commands ###
 
@@ -101,8 +101,8 @@ def downgrade():
     op.drop_column('orders', 'fulfillment_source_id')
 
     # Drop the created tables and indexes
-    op.drop_index(op.f('ix_vendors_id'), table_name='vendors')
-    op.drop_table('vendors')
+    op.drop_index(op.f('ix_sellers_id'), table_name='sellers')
+    op.drop_table('sellers')
     op.drop_index(op.f('ix_users_id'), table_name='users')
     op.drop_table('users')
     op.drop_index(op.f('ix_products_id'), table_name='products')

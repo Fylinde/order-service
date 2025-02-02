@@ -1,4 +1,4 @@
-"""Add ProductModel and Drop VendorModel, UserModel
+"""Add ProductModel and Drop SellerModel, UserModel
 
 Revision ID: 67bbdcf036da
 Revises: 38a9301a499a
@@ -17,9 +17,9 @@ depends_on = None
 
 
 def upgrade():
-    # Drop vendors, users, and products tables if they exist
-    if op.get_bind().dialect.has_table(op.get_bind(), 'vendors'):
-        op.drop_table('vendors')
+    # Drop sellers, users, and products tables if they exist
+    if op.get_bind().dialect.has_table(op.get_bind(), 'sellers'):
+        op.drop_table('sellers')
 
     if op.get_bind().dialect.has_table(op.get_bind(), 'users'):
         op.drop_table('users')
@@ -43,14 +43,14 @@ def downgrade():
     op.drop_index(op.f('ix_products_id'), table_name='products')
     op.drop_table('products')
     
-    # Recreate vendors and users tables if they were dropped
+    # Recreate sellers and users tables if they were dropped
     op.create_table('users',
         sa.Column('id', sa.Integer(), nullable=False, primary_key=True),
         sa.Column('name', sa.String(), nullable=False),
         sa.Column('email', sa.String(), nullable=False, unique=True),
     )
     
-    op.create_table('vendors',
+    op.create_table('sellers',
         sa.Column('id', sa.Integer(), nullable=False, primary_key=True),
         sa.Column('name', sa.String(), nullable=False),
         sa.Column('description', sa.String(), nullable=True),

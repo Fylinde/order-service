@@ -64,7 +64,7 @@ def upgrade():
 
     # Add ForeignKey constraints
     op.create_foreign_key(None, 'orders', 'products', ['product_id'], ['id'])
-    op.create_foreign_key(None, 'orders', 'vendors', ['vendor_id'], ['id'])
+    op.create_foreign_key(None, 'orders', 'sellers', ['seller_id'], ['id'])
     op.create_foreign_key(None, 'orders', 'users', ['user_id'], ['id'])
 
 

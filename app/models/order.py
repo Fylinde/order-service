@@ -21,7 +21,7 @@ class OrderModel(BaseModel):
     tracking_info = Column(String, nullable=True)
     tracking_number = Column(String)
     user_id = Column(Integer, ForeignKey("users.id"), nullable=False)
-    vendor_id = Column(Integer, ForeignKey("vendors.id"), nullable=False)
+    seller_id = Column(Integer, ForeignKey("sellers.id"), nullable=False)
     fulfillment_source_id = Column(Integer, nullable=False)
     fulfillment_source_type = Column(String, nullable=False)
     is_backup_fulfillment = Column(Integer, default=0)
@@ -30,4 +30,4 @@ class OrderModel(BaseModel):
     # Relationships
     product = relationship("ProductModel", back_populates="orders")
     user = relationship("UserModel", back_populates="orders")
-    vendor = relationship("VendorModel", back_populates="orders")
+    seller = relationship("SellerModel", back_populates="orders")
